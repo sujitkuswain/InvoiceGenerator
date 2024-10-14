@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+    }
+
+    .invoice-box {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid #eee;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      font-size: 16px;
+      line-height: 24px;
+      color: #555;
+    }
+
+    .invoice-box table {
+      width: 100%;
+      line-height: inherit;
+      text-align: left;
+    }
+
+    .invoice-box table td {
+      padding: 5px;
+      vertical-align: top;
+    }
+
+    .invoice-box table tr td:nth-child(2) {
+      text-align: right;
+    }
+
+    .invoice-box table tr.top table td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.top table td.title {
+      font-size: 45px;
+      line-height: 45px;
+      color: #333;
+    }
+
+    .invoice-box table tr.information table td {
+      padding-bottom: 40px;
+    }
+
+    .invoice-box table tr.heading td {
+      background: #eee;
+      border-bottom: 1px solid #ddd;
+      font-weight: bold;
+    }
+
+    .invoice-box table tr.details td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.item td {
+      border-bottom: 1px solid #eee;
+    }
+
+    .invoice-box table tr.item.last td {
+      border-bottom: none;
+    }
+
+    .invoice-box table tr.total td:nth-child(2) {
+      border-top: 2px solid #eee;
+      font-weight: bold;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      box-sizing: border-box;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .non-editable {
+      pointer-events: none;
+    }
+
+    #action-buttons {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 16px;
+    }
+
+    @media print {
+
+      #action-buttons,
+      .input-field,
+      #editButton {
+        display: none;
+      }
+    }
+
+    .strikethrough {
+      text-decoration: line-through;
+      color: red;
+    }
+
+    .gap {
+      padding: 10px 0;
+    }
+
+    .service-row {
+      padding: 5px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="invoice-box" id="invoiceForm">
+    <form>
+      <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+          <td colspan="2">
+            <table>
+              <tr>
+                <td class="title">
+                  <div class="title-logo-text" style="display: flex; justify-content: left;">
+                    <img src="logo.png" alt="moSahar Logo" style="width: 50px; height: 50px; margin-right: 10px;">
+                    <span>moSahar</span>
+                  </div>
+                </td>
+                <td>
+                  Invoice #: MS-<span id="invoiceNumber"></span><br>
+                  Date: <span id="invoiceDate"></span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr class="information">
+          <td colspan="2">
+            <table>
+              <tr>
+                <td>
+                  <label for="clientName">Client Name:</label><br>
+                  <input type="text" id="clientName" name="clientName" class="input-field header-info"
+                    placeholder="Client Name" required><br>
+                  <label for="billingPeriod">Billing Period:</label><br>
+                  <input type="text" id="billingPeriod" name="billingPeriod" class="input-field header-info"
+                    placeholder="from date - to date" required>
+                </td>
+                <td>
+                  Website: mosahar.com<br>
+                  Contact: mosahar.boudh@gmail.com
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr class="heading">
+          <td>Service</td>
+          <td>Price</td>
+        </tr>
+
+        <tbody id="serviceTable">
+          <tr class="item">
+            <td>
+              <input type="text" name="service" class="input-field" placeholder="Service Type" required>
+            </td>
+            <td>
+              <div style="display: flex; align-items: center; padding: 0 50px; gap:30px">
+                <label for="originalAmount" style="flex: 0 0 150px; margin: 0;">Original Amount</label>
+                <input type="number" name="originalAmount" class="input-field" style="width: 200px;" required
+                  placeholder="Original Amount">
+              </div>
+              <div style="display: flex; align-items: center; padding: 0 50px; margin-top: 5px; gap:30px">
+                <label for="discountPercent" style="flex: 0 0 150px; margin: 0;">Discount (%)</label>
+                <input type="number" name="discountPercent" class="input-field" style="width: 200px;" required
+                  placeholder="Discount (%)">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody id="invoiceSummary" class="hidden">
+          <tr class="total">
+            <td>Total:</td>
+            <td><span id="totalAmount">₹0.00</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div id="action-buttons">
+        <button type="button" id="btn-add-service" onclick="addRow()">Add Service</button>
+        <button type="button" id="btn-delete-service" onclick="deleteRow()">Delete Service</button>
+        <button type="button" id="btn-generate-service" onclick="generateInvoice()">Generate Invoice</button>
+        <button id="editButton" type="button" class="hidden" onclick="editInvoice()">Edit</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function generateInvoiceNumber() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = ('0' + (now.getMonth() + 1)).slice(-2);
+      const day = ('0' + now.getDate()).slice(-2);
+      const hours = ('0' + now.getHours()).slice(-2);
+      const minutes = ('0' + now.getMinutes()).slice(-2);
+      const seconds = ('0' + now.getSeconds()).slice(-2);
+      return `${year}${month}${day}${hours}${minutes}${seconds}`;
+    }
+
+    function formatDate() {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date().toLocaleDateString(undefined, options);
+    }
+
+    document.getElementById('invoiceNumber').textContent = generateInvoiceNumber();
+    document.getElementById('invoiceDate').textContent = formatDate();
+
+    function addRow() {
+      const table = document.getElementById('serviceTable');
+      const newRow = document.createElement('tr');
+      newRow.classList.add('item');
+      newRow.innerHTML = `
+                <td>
+                  <input type="text" name="service" class="input-field" placeholder="Service Type" required>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; padding: 0 50px; gap:30px">
+                    <label for="originalAmount" style="flex: 0 0 150px; margin: 0;">Original Amount</label>
+                    <input type="number" name="originalAmount" class="input-field" style="width: 200px;"
+                      required placeholder="Original Amount">
+                  </div>
+                  <div style="display: flex; align-items: center; padding: 0 50px; margin-top: 5px; gap:30px">
+                    <label for="discountPercent" style="flex: 0 0 150px; margin: 0;">Discount (%)</label>
+                    <input type="number" name="discountPercent" class="input-field" style="width: 200px;"
+                      required placeholder="Discount (%)">
+                  </div>
+                </td>`;
+      table.appendChild(newRow);
+    }
+
+    function deleteRow() {
+      const table = document.getElementById('serviceTable');
+      if (table.rows.length > 1) {
+        table.deleteRow(-1);
+      } else {
+        alert("You must have at least one service.");
+      }
+    }
+
+    function generateInvoice() {
+      const rows = document.querySelectorAll('#serviceTable tr');
+      let total = 0;
+
+      // Clear previous service rows
+      const invoiceRows = document.querySelectorAll('.service-row');
+      invoiceRows.forEach(row => row.remove());
+
+      document.querySelector('#serviceTable').classList.add('hidden');
+
+      // Loop through each service row to calculate totals
+      rows.forEach(row => {
+        const serviceName = row.querySelector('input[name="service"]').value;
+        const originalAmount = parseFloat(row.querySelector('input[name="originalAmount"]').value) || 0;
+        const discountPercent = parseFloat(row.querySelector('input[name="discountPercent"]').value) || 0;
+        const discountAmount = (originalAmount * discountPercent) / 100;
+        const finalAmount = originalAmount - discountAmount;
+
+        let formattedFinalAmount = `₹${finalAmount.toFixed(2)}`;
+        let displayRow = '';
+
+        if (discountPercent === 0 || discountPercent === null) {
+          // Display only the original amount when there is no discount
+          displayRow = `<td>${serviceName}</td>        <td>${formattedFinalAmount}</td>`;
+        } else {
+          // If the discount percent is 100%, display "FREE"
+          const formattedDiscount = discountPercent === 100 ? "FREE" : `${discountPercent}% off`;
+          displayRow = `<td>${serviceName}</td>        <td>₹<span class="strikethrough">${originalAmount.toFixed(2)}</span> (${formattedDiscount}) ${formattedFinalAmount}</td>`;
+        }
+
+        // Display the formatted service details in a new row in the invoice
+        const invoiceRow = document.createElement('tr');
+        invoiceRow.classList.add('service-row');
+        invoiceRow.classList.add('item');
+        invoiceRow.innerHTML = `${displayRow}`;
+        document.querySelector('.invoice-box table').appendChild(invoiceRow);
+
+        total += finalAmount;
+      });
+
+      // Remove any existing total row before adding a new one
+      const existingTotalRow = document.querySelector('.invoice-box table tr.total');
+      if (existingTotalRow) {
+        existingTotalRow.remove();
+      }
+
+      // Append total as a new row in the invoice
+      const totalRow = document.createElement('tr');
+      totalRow.classList.add('total');
+      totalRow.innerHTML = `<td>Total:</td><td>₹${total.toFixed(2)}</td>`;
+      document.querySelector('.invoice-box table').appendChild(totalRow);
+
+      // Update total amount display
+      // document.getElementById('totalAmount').textContent = `₹${total.toFixed(2)}`;
+      document.getElementById('invoiceSummary').classList.remove('hidden');
+      document.getElementById('editButton').classList.remove('hidden');
+      document.getElementById('btn-add-service').classList.add('hidden');
+      document.getElementById('btn-delete-service').classList.add('hidden');
+      document.getElementById('btn-generate-service').classList.add('hidden');
+      document.querySelectorAll('.header-info').forEach(el => el.readOnly = true);
+      // console.log(document.getElementById('editButton'));
+    }
+
+    function editInvoice() {
+      document.getElementById('serviceTable').classList.remove('hidden');
+      const invoiceRows = document.querySelectorAll('.service-row');
+      invoiceRows.forEach(row => row.remove());
+      // document.getElementById('totalAmount').textContent = '₹0.00';
+      document.getElementById('editButton').classList.add('hidden');
+      document.getElementById('invoiceSummary').classList.add('hidden');
+      document.querySelectorAll('.header-info').forEach(el => el.readOnly = false);
+      document.getElementById('btn-add-service').classList.remove('hidden');
+      document.getElementById('btn-delete-service').classList.remove('hidden');
+      document.getElementById('btn-generate-service').classList.remove('hidden');
+    }
+  </script>
+</body>
+
+</html>
