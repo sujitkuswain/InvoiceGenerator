@@ -1,0 +1,182 @@
+html {
+  font-size: 16px; /* Default, you can adjust it for responsiveness */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 1.25rem; /* 20px converted to rem */
+  padding: 0;
+}
+
+.invoice-box {
+  max-width: 50rem; /* 800px converted to rem */
+  margin: auto;
+  padding: 1.875rem; /* 30px converted to rem */
+  border: 0.0625rem solid #eee; /* 1px converted to rem */
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.15); /* 10px converted to rem */
+  font-size: 1rem; /* 16px converted to rem */
+  line-height: 1.5rem; /* 24px converted to rem */
+  color: #555;
+}
+
+.invoice-box table {
+  width: 100%;
+  line-height: inherit;
+  text-align: left;
+}
+
+.invoice-box table td {
+  padding: 0.3125rem; /* 5px converted to rem */
+  vertical-align: top;
+}
+
+.invoice-box table tr td:nth-child(2) {
+  text-align: right;
+}
+
+.invoice-box table tr.top table td {
+  padding-bottom: 1.25rem; /* 20px converted to rem */
+}
+
+.invoice-box table tr.top table td.title {
+  font-size: 2.8125rem; /* 45px converted to rem */
+  line-height: 2.8125rem; /* 45px converted to rem */
+  color: #333;
+}
+
+.invoice-box table tr.information table td {
+  padding-bottom: 2.5rem; /* 40px converted to rem */
+}
+
+.invoice-box table tr.heading td {
+  background: #eee;
+  border-bottom: 0.0625rem solid #ddd; /* 1px converted to rem */
+  font-weight: bold;
+}
+
+.invoice-box table tr.details td {
+  padding-bottom: 1.25rem; /* 20px converted to rem */
+}
+
+.invoice-box table tr.item td {
+  border-bottom: 0.0625rem solid #eee; /* 1px converted to rem */
+}
+
+.invoice-box table tr.item.last td {
+  border-bottom: none;
+}
+
+.invoice-box table tr.total td:nth-child(2) {
+  border-top: 0.125rem solid #eee; /* 2px converted to rem */
+  font-weight: bold;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.5rem; /* 8px converted to rem */
+  margin: 0.3125rem 0; /* 5px converted to rem */
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+.non-editable {
+  pointer-events: none;
+}
+
+#action-buttons {
+  margin-top: 1.25rem; /* 20px converted to rem */
+}
+
+button {
+  padding: 0.625rem 0.9375rem; /* 10px 15px converted to rem */
+  margin: 0.3125rem; /* 5px converted to rem */
+  font-size: 1rem; /* 16px converted to rem */
+}
+
+@media print {
+  #action-buttons,
+  .input-field,
+  #editButton {
+    display: none;
+  }
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: red;
+}
+
+.gap {
+  padding: 0.625rem 0; /* 10px converted to rem */
+}
+
+.service-row {
+  padding: 0.3125rem 0; /* 5px converted to rem */
+}
+
+/* Mobile styles (adjust for devices with max-width 768px) */
+@media only screen and (max-width: 768px) {
+  body {
+    margin: 1rem;
+  }
+
+  .invoice-box {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .invoice-box table {
+    font-size: 0.875rem; /* Reduce font-size slightly for mobile */
+  }
+
+  .invoice-box .title-logo-text img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .invoice-box table tr td,
+  .invoice-box table tr.item td {
+    padding: 0.5rem;
+  }
+
+  .invoice-box table tr.top table td {
+    padding-bottom: 1rem;
+  }
+
+  .invoice-box table tr.information table td {
+    padding-bottom: 1rem;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  #action-buttons {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  button {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .invoice-box .item td div {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .invoice-box .item td label {
+    flex: 0 0 100px;
+  }
+
+  .invoice-box .item td input {
+    width: 100%;
+  }
+}
