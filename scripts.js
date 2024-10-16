@@ -29,15 +29,13 @@ function addRow() {
               <input type="text" name="service" class="input-field" placeholder="Service Type" required>
             </td>
             <td>
-              <div style="display: flex; align-items: center; padding: 0 50px; gap:30px">
-                <label for="originalAmount" style="flex: 0 0 150px; margin: 0;">Original Amount</label>
-                <input type="number" name="originalAmount" class="input-field" style="width: 200px;"
-                  required placeholder="Original Amount">
+              <div class="service-container">
+                <label class="service-label" for="originalAmount">Original Amount</label>
+                <input type="number" name="originalAmount" class="input-field" required placeholder="Original Amount">
               </div>
-              <div style="display: flex; align-items: center; padding: 0 50px; margin-top: 5px; gap:30px">
-                <label for="discountPercent" style="flex: 0 0 150px; margin: 0;">Discount (%)</label>
-                <input type="number" name="discountPercent" class="input-field" style="width: 200px;"
-                  required placeholder="Discount (%)">
+              <div class="service-container">
+                <label for="discountPercent" class="service-label">Discount (%)</label>
+                <input type="number" name="discountPercent" class="input-field" required placeholder="Discount (%)">
               </div>
             </td>`;
   table.appendChild(newRow);
@@ -52,7 +50,44 @@ function deleteRow() {
   }
 }
 
+function validateDetails() {
+  let result = true;
+
+  if (!document.querySelector("#clientName").value) {
+    alert("Enter client name");
+    result = false;
+  }
+
+  if (!document.querySelector("#billingPeriod").value) {
+    alert("Enter billing period");
+    result = false;
+  }
+
+  const rows = document.querySelectorAll("#serviceTable tr");
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    const serviceName = row.querySelector('input[name="service"]').value;
+    const originalAmount = parseFloat(
+      row.querySelector('input[name="originalAmount"]').value
+    );
+    const discountPercent = parseFloat(
+      row.querySelector('input[name="discountPercent"]').value
+    );
+
+    if (!serviceName || !originalAmount) {
+      alert("Enter atleast one service and price");
+      result = false;
+      break; // exit the loop
+    }
+  }
+
+  return result;
+}
+
 function generateInvoice() {
+  if (!validateDetails()) return;
+
   const rows = document.querySelectorAll("#serviceTable tr");
   let total = 0;
 

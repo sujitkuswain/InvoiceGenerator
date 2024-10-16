@@ -18,8 +18,8 @@
             <table>
               <tr>
                 <td class="title">
-                  <div class="title-logo-text" style="display: flex; justify-content: left;">
-                    <img src="logo.png" alt="moSahar Logo" style="width: 50px; height: 50px; margin-right: 10px;">
+                  <div class="title-logo-text logo-container">
+                    <img src="logo.png" class="logo-img" alt="moSahar Logo">
                     <span>moSahar</span>
                   </div>
                 </td>
@@ -45,7 +45,7 @@
                     placeholder="from date - to date" required>
                 </td>
                 <td>
-                  Website: mosahar.com<br>
+                  Website: <span class="website-url">mosahar.com</span><br>
                   Contact: mosahar.boudh@gmail.com
                 </td>
               </tr>
@@ -64,15 +64,13 @@
               <input type="text" name="service" class="input-field" placeholder="Service Type" required>
             </td>
             <td>
-              <div style="display: flex; align-items: center; padding: 0 50px; gap:30px">
-                <label for="originalAmount" style="flex: 0 0 150px; margin: 0;">Original Amount</label>
-                <input type="number" name="originalAmount" class="input-field" style="width: 200px;" required
-                  placeholder="Original Amount">
+              <div class="service-container">
+                <label class="service-label" for="originalAmount">Original Amount</label>
+                <input type="number" name="originalAmount" class="input-field" required placeholder="Original Amount">
               </div>
-              <div style="display: flex; align-items: center; padding: 0 50px; margin-top: 5px; gap:30px">
-                <label for="discountPercent" style="flex: 0 0 150px; margin: 0;">Discount (%)</label>
-                <input type="number" name="discountPercent" class="input-field" style="width: 200px;" required
-                  placeholder="Discount (%)">
+              <div class="service-container">
+                <label for="discountPercent" class="service-label">Discount (%)</label>
+                <input type="number" name="discountPercent" class="input-field" required placeholder="Discount (%)">
               </div>
             </td>
           </tr>

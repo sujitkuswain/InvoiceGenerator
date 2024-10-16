@@ -117,66 +117,31 @@ button {
   padding: 0.3125rem 0; /* 5px converted to rem */
 }
 
-/* Mobile styles (adjust for devices with max-width 768px) */
-@media only screen and (max-width: 768px) {
-  body {
-    margin: 1rem;
-  }
+.service-container {
+  display: flex;
+  align-items: center;
+  padding: 0 0;
+  gap: 2rem;
+}
 
-  .invoice-box {
-    padding: 1.5rem;
-    font-size: 1rem;
-  }
+.service-label {
+  flex: 0 0 15rem;
+  margin: 0;
+}
 
-  .invoice-box table {
-    font-size: 0.875rem; /* Reduce font-size slightly for mobile */
-  }
+.logo-container {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
 
-  .invoice-box .title-logo-text img {
-    width: 40px;
-    height: 40px;
-  }
+.logo-img {
+  width: 4rem;
+  height: 4rem;
+  margin-right: 0.75rem;
+}
 
-  .invoice-box table tr td,
-  .invoice-box table tr.item td {
-    padding: 0.5rem;
-  }
-
-  .invoice-box table tr.top table td {
-    padding-bottom: 1rem;
-  }
-
-  .invoice-box table tr.information table td {
-    padding-bottom: 1rem;
-  }
-
-  .input-field {
-    width: 100%;
-    padding: 0.5rem;
-  }
-
-  #action-buttons {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  button {
-    padding: 0.75rem;
-    font-size: 1rem;
-  }
-
-  .invoice-box .item td div {
-    padding: 0 1rem;
-    gap: 1rem;
-  }
-
-  .invoice-box .item td label {
-    flex: 0 0 100px;
-  }
-
-  .invoice-box .item td input {
-    width: 100%;
-  }
+.website-url {
+  color: blue;
+  text-decoration: underline;
 }
