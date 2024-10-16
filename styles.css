@@ -149,3 +149,21 @@ button {
   color: blue;
   text-decoration: underline;
 }
+
+.update-page:link,
+.update-page:hover,
+.update-page:visited,
+.update-page:active {
+  display: inline-block;
+  padding: 0.5rem;
+  background-color: beige;
+  margin-top: 1rem;
+  text-decoration: none;
+  border-radius: 1rem;
+  color: rgb(19, 165, 210);
+}
+
+.update-page:hover {
+  transform: scale(1.2);
+  color: blue;
+}
