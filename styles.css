@@ -25,6 +25,10 @@ body {
   text-align: left;
 }
 
+.disabled-dropdown {
+  pointer-events: none;
+}
+
 .invoice-box table td {
   padding: 0.3125rem; /* 5px converted to rem */
   vertical-align: top;

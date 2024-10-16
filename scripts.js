@@ -54,7 +54,7 @@ function validateDetails() {
   let result = true;
 
   if (!document.querySelector("#clientName").value) {
-    alert("Enter client name");
+    alert("Select client name");
     result = false;
   }
 
@@ -156,6 +156,8 @@ function generateInvoice() {
   document
     .querySelectorAll(".header-info")
     .forEach((el) => (el.readOnly = true));
+  document.querySelector("#clientName").classList.add("disabled-dropdown");
+
   // console.log(document.getElementById('editButton'));
 }
 
@@ -169,6 +171,7 @@ function editInvoice() {
   document
     .querySelectorAll(".header-info")
     .forEach((el) => (el.readOnly = false));
+  document.querySelector("#clientName").classList.remove("disabled-dropdown");
   document.getElementById("btn-add-service").classList.remove("hidden");
   document.getElementById("btn-delete-service").classList.remove("hidden");
   document.getElementById("btn-generate-service").classList.remove("hidden");

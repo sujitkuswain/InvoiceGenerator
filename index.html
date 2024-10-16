@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Invoice</title>
-  <link rel="stylesheet" href="styles.css?v=1.1">
-  <script src="scripts.js?v=1.1" defer></script>
+  <link rel="stylesheet" href="styles.css?v=1.2">
+  <script src="scripts.js?v=1.2" defer></script>
 </head>
 
 <body>
@@ -38,8 +38,13 @@
               <tr>
                 <td>
                   <label for="clientName">Client Name:</label><br>
-                  <input type="text" id="clientName" name="clientName" class="input-field header-info"
-                    placeholder="Client Name" required><br>
+                  <!-- <input type="text" id="clientName" name="clientName" class="input-field header-info"
+                    placeholder="Client Name" required><br> -->
+                  <select id="clientName" name="clientName" class="input-field header-info" required>
+                    <option value="">Select client name</option>
+                    <option value="yummy">Yummy Bakery and Sweets</option>
+                    <option value="technozone">Techno Zone</option>
+                  </select>
                   <label for="billingPeriod">Billing Period:</label><br>
                   <input type="text" id="billingPeriod" name="billingPeriod" class="input-field header-info"
                     placeholder="from date - to date" required>
